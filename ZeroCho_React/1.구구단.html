@@ -1,0 +1,57 @@
+<html>
+  <head>
+    <script crossorigin src="https://unpkg.com/react@17/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
+ <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      class Gugudan extends React.Component{
+        constructor(props){
+          super(props);
+          this.state={
+            first: Math.ceil(Math.random()*9),
+            second: Math.ceil(Math.random()*9),
+            answer: '',
+            result: '',
+          }
+        }
+        onChange = (e)=>{
+          this.setState({answer: e.target.value});
+        };
+        onSubmit = (e)=>{
+          e.preventDefault();
+          if(parseInt(this.state.answer) === this.state.first * this.state.second){
+            this.setState({
+              first: Math.ceil(Math.random()*9),
+              second: Math.ceil(Math.random()*9),
+              result: '정답입니다.',
+              answer:'',
+            });
+          }
+          else{
+            this.setState({result: '오답입니다.',});
+            this.input.focus();
+          }
+        };
+        refInput = (c)=>{this.input=c;};
+        render(){
+          return (
+            <div>
+              <div> Q. {this.state.first} 곱하기 {this.state.second}는?</div>
+              <form onSubmit={this.onSubmit}>
+                <input ref={this.refInput} value={this.state.answer} onChange={this.onChange}/>
+                <button>입력!</button>
+              </form>
+              <div> {this.state.result}</div>
+            </div>
+
+          );
+        }
+      }
+
+      ReactDOM.render(<Gugudan/>, document.querySelector('#root')); // html div안에 삽입
+    </script>
+  </body>
+</html>
